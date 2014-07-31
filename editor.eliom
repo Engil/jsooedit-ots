@@ -3,9 +3,6 @@
   open Eliom_content
   open Html5.D
 }}
-{client{
-  let _ = Eliom_client.onload (fun _ -> print_endline "coucou")
-}}
 module Editor_app =
   Eliom_registration.App (
     struct
