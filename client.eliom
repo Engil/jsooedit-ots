@@ -403,7 +403,6 @@ let _ = Dom_html.window##onload <- Dom_html.handler (fun _ ->
       let to_send = React.E.fmap (fun (pos,a,r,this_comes_from_a_patch) ->
           if not this_comes_from_a_patch then
             (
-            print_endline "this come not from a patch";
             let text = Zed_edit.text ed in
             let added = Zed_rope.sub text pos a in
             let str = Zed_rope.to_string added in
