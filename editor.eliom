@@ -24,9 +24,5 @@ let () =
              div ~a:[a_class ["coll"]]
              [
                div ~a:[a_id "content"][]
-             ];
-             div ~a:[a_class ["colr"]]
-             [
-               div ~a:[a_id "copy_content"][]
              ]
-           ])))
+          ])))

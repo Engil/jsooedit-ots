@@ -2,8 +2,11 @@
 
 let bus = Eliom_bus.create
     ~scope:Eliom_common.site_scope Json.t<string * int * int>
+
 }}
+
 {client{
+
 let (>>=) = Lwt.bind
 
 let px s = Js.string (string_of_int s ^ "px")
@@ -375,14 +378,6 @@ let _ = Dom_html.window##onload <- Dom_html.handler (fun _ ->
     let view = View.create context "content" in
     let input = Input.create context view "input" in
 
-    let copy_editor = Zed_edit.create
-        ~lowercase:(rope_iter_js (fun s -> s##toLowerCase()))
-        ~uppercase:(rope_iter_js (fun s -> s##toUpperCase())) () in
-    let copy_cursor = Zed_edit.new_cursor copy_editor in
-    let copy_context = Zed_edit.context copy_editor copy_cursor in
-    let copy_view = View.create copy_context "copy_content" in
-    let copy_input = Input.create copy_context copy_view "copy_input" in
-
     let raw,send_raw = React.E.create () in
 
     (* apply a patch on context *)
@@ -438,12 +433,10 @@ let _ = Dom_html.window##onload <- Dom_html.handler (fun _ ->
         ) raw in
       () in *) () in
     sync context 1;
-    sync copy_context 2;
     let _ = React.E.map (print_endline) raw in
-    View.init copy_view;
     View.init view;
 
     Input.init input;
-    Input.init copy_input;
     Js._true)
+
 }}
