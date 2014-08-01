@@ -3,6 +3,20 @@
 let bus = Eliom_bus.create
     ~scope:Eliom_common.site_scope Json.t<string * int * int>
 
+let get_document =
+  Eliom_service.Ocaml.coservice'
+    ~rt:(Eliom_service.rt : [`Result of (string * int) | `NotConnected] Eliom_service.rt)
+    ~get_params: (Eliom_parameter.unit)
+    ()
+
+let send_patch =
+  Eliom_service.Ocaml.post_coservice'
+    ~rt:(Eliom_service.rt :
+           [`Applied of int * string | `Refused of int * string]
+             Eliom_service.rt)
+    ~post_params: (Eliom_parameter.ocaml "lol" Json.t<string>)
+    ()
+
 }}
 
 {client{
