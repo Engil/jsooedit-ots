@@ -13,9 +13,9 @@ let main_service =
   Eliom_service.App.service ~path:[] ~get_params:Eliom_parameter.unit ()
 
 let () =
+  let list_ops = [(0,  [Ot.RetainOp (20, Ot.EmptyOp)])] in
   let eref = Eliom_reference.eref ~scope:Eliom_common.site_scope
-      "document" in
-
+  ("let _ = print_int 42", list_ops) in
 
   let append_shadowcopy, get_shadowcopy =
     ((fun elm -> Eliom_reference.set eref elm),
@@ -27,8 +27,10 @@ let () =
        Lwt.return @@ `Applied (0, ""));
 
   let get_document name = get_shadowcopy ()
-    >>= fun s ->
-    Lwt.return (`Result (s, 0)) in
+    >>= fun (content, ops_list) ->
+      match ops_list with
+      | (rev, _)::_ -> Lwt.return (`Result (content, rev))
+      | _ -> Lwt.return `Error in
 
   Eliom_registration.Ocaml.register
     ~service:Client.get_document

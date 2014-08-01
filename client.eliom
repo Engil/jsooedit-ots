@@ -5,7 +5,7 @@ let bus = Eliom_bus.create
 
 let get_document =
   Eliom_service.Ocaml.coservice'
-    ~rt:(Eliom_service.rt : [`Result of (string * int) | `NotConnected] Eliom_service.rt)
+    ~rt:(Eliom_service.rt : [`Result of (string * int) | `Error] Eliom_service.rt)
     ~get_params: (Eliom_parameter.unit)
     ()
 
