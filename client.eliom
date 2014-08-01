@@ -1,7 +1,7 @@
 {server{
 
 let bus = Eliom_bus.create
-    ~scope:Eliom_common.site_scope Json.t<string * int * int>
+    ~scope:Eliom_common.site_scope Json.t<string Ot.t * int * int>
 
 let get_document =
   Eliom_service.Ocaml.coservice'

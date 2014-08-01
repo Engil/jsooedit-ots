@@ -1,11 +1,13 @@
 (* Code generated with Coq from the following repository *)
 (* https://github.com/Operational-Transformation/ot.v *)
+{server{
 
 type 'a t =
   | EmptyOp
   | RetainOp of int * 'a t
   | InsertOp of 'a * 'a t
   | DeleteOp of 'a t
+  deriving(Json)
 
 let fmap = (fun f a -> match a with Some e -> Some (f e) | None -> None)
 
@@ -148,3 +150,5 @@ let rec transform a =
            (transform' b')
        | DeleteOp b' -> transform a' b')
   in transform'
+
+}}
