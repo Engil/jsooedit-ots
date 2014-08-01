@@ -369,7 +369,10 @@ let cache owner e =
   e''
 
 
-let _ = Dom_html.window##onload <- Dom_html.handler (fun _ ->
+let onload bus editor _=
+    let _ = Random.self_init () in
+    let client_id = Random.int 4096 in
+
     let editor : unit Zed_edit.t = Zed_edit.create
         ~lowercase:(rope_iter_js (fun s -> s##toLowerCase()))
         ~uppercase:(rope_iter_js (fun s -> s##toUpperCase())) () in
@@ -436,6 +439,5 @@ let _ = Dom_html.window##onload <- Dom_html.handler (fun _ ->
     View.init view;
 
     Input.init input;
-    Js._true)
-
+    ()
 }}
