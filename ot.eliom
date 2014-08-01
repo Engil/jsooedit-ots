@@ -1,6 +1,6 @@
 (* Code generated with Coq from the following repository *)
 (* https://github.com/Operational-Transformation/ot.v *)
-{server{
+{shared{
 
 type 'a t =
   | EmptyOp

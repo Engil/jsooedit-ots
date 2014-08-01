@@ -382,8 +382,22 @@ let cache owner e =
   let e'' = React.E.map (fun data -> {data;owner}) e in
   e''
 
+let load_document _ =
+  Eliom_client.call_ocaml_service ~service:%get_document () ()
+  >>= fun response ->
+  begin
+    match response with
+    | `Result (document, id) ->
+      Lwt.return (Some (document, id))
+    | `Error -> Lwt.return None
+  end
 
 let onload bus editor _=
+    load_document ()
+    >>= (fun document ->
+    let text = match document with
+    | Some (text, _) -> text
+    | None -> "" in
     let _ = Random.self_init () in
     let client_id = Random.int 4096 in
 
@@ -394,7 +408,7 @@ let onload bus editor _=
     let context = Zed_edit.context editor cursor in
     let view = View.create context "content" in
     let input = Input.create context view "input" in
-
+    let _ = Zed_edit.replace context 0 (Zed_rope.of_string text) in
     let raw,send_raw = React.E.create () in
 
     (* apply a patch on context *)
@@ -423,6 +437,7 @@ let onload bus editor _=
             let text = Zed_edit.text ed in
             let added = Zed_rope.sub text pos a in
             let str = Zed_rope.to_string added in
+
             Printf.printf "%s pos %d  a %d r %d str %s\n" (Zed_rope.to_string text) pos a r str;
             let data = match r,str with
               | 0,"" -> assert false
@@ -453,5 +468,5 @@ let onload bus editor _=
     View.init view;
 
     Input.init input;
-    ()
+    Lwt.return ())
 }}
