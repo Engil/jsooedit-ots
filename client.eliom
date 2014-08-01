@@ -409,6 +409,7 @@ let onload bus editor _=
     let view = View.create context "content" in
     let input = Input.create context view "input" in
     let _ = Zed_edit.replace context 0 (Zed_rope.of_string text) in
+    let _ = Zed_cursor.goto cursor (String.length text) in
     let raw,send_raw = React.E.create () in
 
     (* apply a patch on context *)
