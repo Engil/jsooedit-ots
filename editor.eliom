@@ -5,9 +5,9 @@
 }}
 module Editor_app =
   Eliom_registration.App (
-    struct
-      let application_name = "editor"
-    end)
+  struct
+    let application_name = "editor"
+  end)
 
 let main_service =
   Eliom_service.App.service ~path:[] ~get_params:Eliom_parameter.unit ()
@@ -42,14 +42,11 @@ let () =
            Lwt.return (Client.onload %Client.bus %elt ())
          }};
        Lwt.return @@
-         (Eliom_tools.F.html
-            ~title:"editor"
-            ~css:[["css";"editor.css"]]
-            Html5.F.(body [
-                div ~a:[a_class ["coll"]]
-                  [
-                    div
-                      ~a:[a_id
-                            "content"][]
-                  ]
-              ])))
+       (Eliom_tools.F.html
+          ~title:"editor"
+          ~css:[["css";"editor.css"]]
+          Html5.F.(body [
+              div ~a:[a_class ["coll"]]
+                [div ~a:[a_id "content"][]]
+            ]))
+    )
