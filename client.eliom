@@ -398,6 +398,7 @@ let onload bus editor _=
     let text = match document with
     | Some (text, _) -> text
     | None -> "" in
+    let rope_text = Zed_rope.of_string text in
     let _ = Random.self_init () in
     let client_id = Random.int 4096 in
 
@@ -408,8 +409,8 @@ let onload bus editor _=
     let context = Zed_edit.context editor cursor in
     let view = View.create context "content" in
     let input = Input.create context view "input" in
-    let _ = Zed_edit.replace context 0 (Zed_rope.of_string text) in
-    let _ = Zed_cursor.goto cursor (String.length text) in
+    let _ = Zed_edit.insert context rope_text in
+    let _ = Zed_cursor.goto cursor (Zed_rope.length rope_text) in
     let raw,send_raw = React.E.create () in
 
     (* apply a patch on context *)
